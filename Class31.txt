@@ -1,0 +1,95 @@
+Chapter 1 Helpful Linux Commands 
+Overview:
+Step 1 - Manipulating file contents
+Step 2 - Viewing the end of log files with `tail`
+Step 3 - Locating files
+Step 4 - Searching for text within files and outputs
+Step 5 - Using 'df' to check disk usage
+Step 6 - Viewing processes
+Step 7 - Using 'free' to view information about the system memory usage
+--------------------------------------------------------------------
+
+    - Viewing file contents with ==> cat
+    - Viewing the last 10 lines of a file with ==> tail
+    - Appending command outputs to a file with ==> the >> operator
+    - Locating files that match certain criteria using ==> find & ==>locate
+    - Using ==> grep ==> with other commands to isolate a portion of their output
+    - Checking disk space with ==> df
+    - Viewing and managing processes with ==> ps & ==> top
+    - Using ==> free ==> to view information about the system memory usage
+
+======================================================================
+Chapter 2: Using file permissions [Admin 101]
+
+- What are file permissions?
+	
+    Read: Viewing the contents of a file
+    Write: Changing the contents of a file
+    Execute: Running contents of a file as code
+
+- Interacting with a file from different user accounts
+- Changing permissions (symbolic)
+- Changing permissions (absolute)
+- Changing file ownership
+- Changing Group Ownership
+- Auditing permissions
+
+
+==>Permission Groups
+
+	Each file and directory has three user based permission groups:
+
+    	==> owner – The Owner permissions apply only to the owner of the file 		or directory, they will not impact the actions of other users.
+    	==> group – The Group permissions apply only to the group that has 		been assigned to the file or directory, they will not affect 		the actions of other users.
+    	==> all users – The All Users permissions apply to all other users on 		the system, this is the permission group that you want to 		watch the most.
+Permission Types
+
+		Each file or directory has three basic permission types:
+
+    		==> read – The Read permission refers to a user’s capability 			to read the contents of the file.
+    		==> write – The Write permissions refer to a user’s capability 			to write or modify a file or directory.
+    		==> execute – The Execute permission affects a user’s 			capability to execute a file or view the contents of a 			directory.
+Viewing the Permissions
+	“ls -l” command 
+	The permission in the command line is displayed as: 
+	_rwxrwxrwx 1 	owner:group
+	
+	
+    1. User rights/Permissions
+        1- The first character that I marked with an underscore is the special 		permission flag that can vary.
+        2- The following set of three characters (rwx) is for the owner 		permissions.
+        3- The second set of three characters (rwx) is for the Group 		permissions.
+        4- The third set of three characters (rwx) is for the All Users 		permissions.
+    2. Following that grouping since the integer/number displays the number of 	hardlinks to the file.
+    3. The last piece is the Owner and Group assignment formatted as 		Owner:Group.
+
+Modifying the Permissions
+	When in the command line, the permissions are edited by using the 	command ==> chmod	
+	
+		The Permission Groups used are:
+
+    		u – Owner
+    		g – Group
+    		o – Others
+    		a – All users
+
+		The Permission Types that are used are:
+
+    		r – Read
+    		w – Write
+    		x – Execute
+Using Binary References to Set permissions
+		chmod 640 file1 ==> which means that the owner has read and 				    write permissions, the group has read 				    permissions, and all other user have no 				    rights to the file.
+			
+			- 6 ==> Owner 
+			- 4 ==> Group
+			- 0 ==> all other users
+			
+		the rwx string.
+
+    			r = 4
+    			w = 2
+    			x = 1
+		So to set a file to permissions on file1 to 
+		read _rwxr_____, 
+		you would enter chmod 740 file1.

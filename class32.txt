@@ -1,0 +1,40 @@
+Manage user accounts and groups [Admin 101]
+
+
+Installing Software using Package Managers [Admin 101]
+Concepts included in this scenario:
+
+    Install a package with yum
+    Update and remove packages with yum
+    Roll back a transaction with yum history
+    Use rpm for detailed queries
+
+
+Service Administration Basics [Admin 101]
+
+Concepts included in this scenario:
+
+    View and kill processes
+    Learn how processes and services are related
+    View the status of a service
+    Learn how systemd and systemctl are related
+    Enable a service with systemctl to make it persistent
+    Restart a service to activate configuration changes
+
+ 
+Unusual Unixisms [Admin 101]
+	Concepts included in this scenario:
+
+    		Accessing documentation using man
+    		Using tab completion to save keystrokes and improve accuracy
+    		Learning the meaning of ~
+    		Accessing hidden files
+    		Running commands as root vs. sudo
+    		Interpreting epoch time
+Configuring Network Interfaces [Admin 101]
+	Concepts included in this scenario:
+
+    		Learn NetworkManager (nmcli) syntax
+    		Configure a new dynamic IP connection using DHCP
+    		Update this connection to use static IP address assignment
+    		Validate and configure DNS server settings

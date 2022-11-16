@@ -1,0 +1,112 @@
+What is a process?
+- A process is a program which is being executed
+- Any process may create a child process. All processes are descendants of the first system process,
+which is systemd on a RHEL system.
+
+# echo $$    (to see the PID of your current shell process)
+4085
+# bash 
+# echo $$
+8686
+# exit
+# echo $$
+4085
+
+===================================================================
+Listing  processes:
+# ps
+# ps aux
+# ps -aux
+# ps -aux  | less
+# ps aux   | grep -i syslogd
+# ls /proc/
+# ps aux | grep 246    (which shown in /proc)
+# pidof vim   ====> or # pgrep vim
+
+# ps -l   =================================> to display parent PID PPID
+# ps -ef  =================================> to display parent PID PPID and nice values
+
+a .................................> all processes attached to a terminal
+u .................................> provides more columns
+x .................................> all other processes
+
+# pstree                        Process Status Tree
+# ps fax                        Processes status tree
+# pstree -p                     Display PID of each process
+
+
+- Processes in brackets ==> usually at the top are scheduled kernel threads.
+==========================================================================================================================
+Real Time Processes monitoring:
+----------------------------------
+# uptime
+# grep "model name" /proc/cpuinfo ===> (to know nu of CPUs)
+
+# top
+type 1 to show all cpu cores
+type s to change the default refresh rate which is 3 seconds
+type h for help
+type k to kill a process
+type r renice the process
+type M to change the display to sort by the amount of memory
+type P to change the display to sort by the amount of the CPU utilization
+type w to save current configuration
+type q to quit
+
+
+PID         :::::::::::::::::::::::>    The Process ID
+USER        :::::::::::::::::::::::>    The Process Owner
+VIRT        :::::::::::::::::::::::>    (Virtual Memory) All Memory used by the process is using including swap
+RES         :::::::::::::::::::::::>     (Resident Memory) The Physical Memory used by the process 
+TIME        :::::::::::::::::::::::>      CPU time, the total processing time since the process started
+========================================================================================================================
+GUI tools to manage processes:
+-----------------------------
+# gnome-system-monitor
+
+========================================================================================================================
+Controlling Jobs:
+----------------------------
+- Background processess display a question mark (?) in the TTY column in a ps aux command.
+# dd if=/dev/zero of=/dev/null
+# sleep 1000000 &
+[1] 5151
+# Jobs[1]+ Running sleep 1000000 &
+# fg %1
+# bg %1
+# sleep 100000
+========================================================================================================================
+Kill Processes:
+------------------------------------------
+#Kill -l   ===================> (List all signals)
+# man 7 signals 
+
+1) SIGHUP       Causes the process to re-read the configuration file
+9) SIGKILL      Force==>   Should be used withcaution
+15) SIGNTERM    The default 
+
+# pidof vim
+4123
+# kill 4123
+# pidof vim
+7073
+# kill -9 7073
+# kill -SIGKILL 7073
+
+# pkill vim          (Default is SIGNTERM)
+# killall vim
+===================================================================================================
+Managing Process Proiorities:
+- Processes are scheduled according to Proiority.
+- negative values are allowed only to root.
+
+# ps 1     (to show nice values)
+- The nice command is used to start a process with a user defined proiority.
+# nice vim text&           (Default is 10)
+[1] 9182
+
+# nice -n 15 vim text &
+
+- The renice command is used to change the proiority of a currently running process.
+# renice 19 9182     (19 is the new value)
+=================================================================================================

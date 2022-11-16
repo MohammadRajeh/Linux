@@ -1,0 +1,118 @@
+Manage Permissions
+============================
+ls -al /home -d ================ > to view Directory Permissions
+1) Symbolic Method:
+----------------------------
+    chmod g+w file
+    chmod o+w file
+    chmod u+w file
+    chmod u+w,g+wr,o+r file
+    chmod og-rw file
+    chmod u=rw,g=rw,o=r file    =====================> Reset all old permissions
+    chmod a+x file              =====================> OR chmod ugo+x 
+    chmod a=rw file             ====================> OR chmod ugo+rw
+    chmod =rw file              =======================> Owner
+    chmod u= file               =======================> remove all permissions from owner
+    chmod +rw file              =======================> chmod u+rw file
+    chmod =rw file              =======================> chmod u=rw file
+    chmod -R g+rwx file         =======================> Set Permidirectory and all files and subdirectories
+
+2) Numeric Method:
+----------------------------
+        Owner Group Others
+   r      w        x
+   4      2        1
+
+   r+w = 5
+   w+x=3
+   rwx=7
+   chmod 777 file1              =====================> all users have full permissions 
+   chmod 745 file1              =====================> all users have full permissions 
+
+3) Special Permissions
+-------------------------------
+    Change File           Owner:=========>     chown m.rajeh mohammad
+    Change Group          Owner:=========>     chown :admins   m.rajeh    or chgrp admin file 
+    Change Group and user Owner:=========>     chown m.rajeh:admins  file 
+
+
+
+    Set User ID ===> Run executable files as Owners 
+    Set Group ID ==> Run executable files as group Owners and Inherits group ownership to all  newly created items below 
+    Sticky bit   ===>  Delete files only if the owner or owner of the parent directory 
+    #####################################################
+    which passwd
+    /usr/bin/passwd ====> use to change all users password
+    $ ll /usr/bin/passwd
+    -rwsr-xr-x 1 root root 72424 Mar  3  2022 /usr/bin/passwd #(Red color)
+     s ==> means any user can run file using user permission
+
+     change game file permissions
+     chmod 755 game.sh
+     if i need user run this file without sudo pemission we need
+     chmod u+s game.sh
+     Numeric Special Permissions ==> 4 = Set User Id  2 = Set Group ID 1 = Sticky bit
+     to find file have set User ID Permissions ===> find / -perm /4000 2> /dev/null     
+  
+
+    tail /etc/group
+
+    chmod g+s  /home/mrajeh/datafiles
+    chown :admins /home/mrajeh/datafiles
+    ll -d /home/mrajeh/datafiles
+
+    Sticky bit applied on a temp files 
+       ll -d /tmp
+       drwxrwxrwt 17 root root 4096 Nov 11 23:55 /tmp
+
+     cd /home 
+     mkdir data
+     chmod 777 data
+     cd data
+     touch 1 2 3 
+     chmod 744 data/*
+
+     if user have permission on a directory by default have permission on all files and subdirectories
+     we can fix that using Sticky bit
+     chmod 1777 data
+     ll -d data/
+
+Default File Permissions:
+-------------------------
+- The default file permissions for files are set by the processes that create them. For Example, text editors create files 
+    so they are readable and writeable, but not executable, by everyone.
+
+- Every process on the system has a unmask:
+# umask
+0022
+$ umask
+0002
+
+   r      w        x
+   4      2        1
+
+ Normal Users           |   root
+ ===================================
+           002          |       022
+                        |
+                        |
+file:       rw          |
+max:rw ==> 666          |    
+           664          |       644
+dir:       rwx          |
+max:    ==> 777         |    
+            775         |       755
+
+
+
+
+
+# umask 002  ===> not permanent 
+# vim /etc/bashrc     ===> modify All Users
+# vim /etc/profile    ===> modify All Users
+# vim .bashrc         ===> modify  User
+# vim .bash_profile   ===> modify  User 
+
+
+============================================================================================
+

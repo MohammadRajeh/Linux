@@ -1,0 +1,60 @@
+systemd:
+=============================================
+- System startup and server processes are managed by the systemd.
+- For many years, process ID 1 of Linux and UNIX systems has been the init process.
+     Frequently used deamons were on systems at boot time with SystemV and LSB init scripts. 
+        Less Frequently used deamons were started on demand by another service, 
+        Such as initd or xinetd, which listens for client connections.
+
+====================================================================================
+Listing unit files with systemctl:
+========================================================================
+
+# systemctl
+# systemctl -t help                                     (Query the state of all units)
+# systemctl --type service                              (Query the state on only the service Unit)
+# systemctl list-units --type service                  (List all active services)
+# systemctl list-units --type service --all            (List all active services)
+# systemctl --failed --type service                    (List failed services)
+
+# systemctl status sshd.service 
+# systemctl status sshd
+# systemctl status firewalld.service
+# systemctl status firewalld
+# systemctl status firewalld -l
+# systemctl is-active sshd
+# systemctl is-enabled sshd
+
+====================================================================
+
+Controlling System Services:
+====================================================================
+
+# systemctl status sshd
+# systemctl restart sshd
+# systemctl stop sshd
+# systemctl start sshd
+# systemctl reload sshd                                 (Re-read the configuration file)
+
+=====================================================================
+Unit Dependencies:
+=====================================================================
+# systemctl stop cups
+Warning: stopping cups.service, but it can still be activated by:
+        cups.socket 
+        cups.path
+# systemctl list-dependencies cups
+# systemctl list-dependencies cups --reverse
+====================================================================
+Masking Services:
+====================================================================
+
+A masked service can not be started manually or automatically
+Network vs NetworkManagemer
+iptables vs firewalld.
+# systemctl mask Network
+# systemctl unmask Network
+====================================================================
+Enabling system deamons to start or stop at boot:
+# systemctl enable sshd
+# systemctl disable sshd

@@ -1,0 +1,120 @@
+Red Hat Subscription Management:
+==========================================================================
+
+# subscription-manager-gui 
+OR
+
+# subscription-manager register --username=mohammad --password=123
+=========================================================================== 
+# df -h                         (View devices)
+# mount /dev/cdrom /media
+# cd /media/Packages
+# ls
+
+=========================================================================== 
+Software packeges and RPM(Redhat packeges manager):
+Ex:
+httpd-tools-2.4.6-7.el7.x86_64.RPMhttpd-tools....Name
+2.4.6......Version
+7.e17......Release
+x86_64.....ARCH
+
+
+# uname -a
+# uname -r
+# arch
+# cat /etc/redhat-realease
+
+# rpm -ivh vsftpd-3.0.2.-10.e17.x86_64.rpm                 (Install a packege) i ===> install v ==> virbos   h===> haches
+# rpm -qa | grep -i ftp
+# rpm -e vsftpd                                             (Uninstall a packege)                
+# rpm -Fvh vsftpd-3.0.2-10.e17.x86_64.rpm                   (Update an installed packege)
+# rpm -Uvh vsftpd-3.0.2-10.e17.x86_64.rpm                   (Update and install a packege)
+# rpm -ql vsftpd                                            (Query an installed packege)
+# rpm -qpl vsftpd-3.0.2-10.e17.x86_64.rpm                   (Query a not-installed packege)
+# rpm -qi vsftpd                                            (info of an installed packege)
+# rpm -qc vsftpd                                            (Query config files of an installed packege)
+# rpm -qpc vsftpd                                            (Query config files of a not-installed packege)
+# rpm -qdc vsftpd                                            (Query documentation files of an installed packege)
+# rpm -qdc vsftpd-3.0.2.-10.e17.x86_64.rpm                   (Query documentation files of a not-installed packege)
+===================================================================
+# which passwd 
+/usr/bin/passwd
+# rpm -qf /usr/bin/passwd
+passwd-0.79-4.e17.x86_64
+
+# rpm -ivh --prefix=/home/dir/  vsftpd-3.0.2.-10.e17.x86_64.rpm 
+error: package vsftpd is not relocatable                                 (Change the default installation directory)
+
+# rpm --import /media/RPM-GPG-KEY-redhat-*                               (import the keys)
+# rpm -k  vsftpd-3.0.2.-10.e17.x86_64.rpm                                (Check if the package is signed from RED HAT or not)
+
+=====================================================================================
+Yellowdog Updater, Modifies (yum):
+======================================================================================
+Install Packages from Repositories:
+1) Local Repo:
+- Step 1:
+        - Copy all Media Files and Directories to local Directory Such as (/var/ftp/pub)
+- Step 2
+        - create repo file to creatre local configuratoion
+
+    # ls /etc/yum.repos.d/
+
+    # vim /etc/yum.repos.d/local.repo
+            [LocalRepo]
+            name = local
+            baseurl = file:///var/ftp/pub/media/BaseOS
+            enabled = 1
+            gpgcheck = 0
+Note:
+ baseurl = BaseOS directory in new location
+ you can install any Package if the package in Packeges direcotry 
+2) Remote Repo:
+ On Server
+   Step 1: Install vsftp on the server
+   --------------------------------------------------------
+        rpm -ivh /media/Packages/vsftpd-3.0.2.-10.e17.x86_64.rpm
+  step 2: 
+        - Modify vsftp Configuration to enable anynoumuse == > YES and Local ==> NO 
+        -  systemctl start vsftpd 
+        - systemctl enable vsftpd
+        - setenforce 0                                  (stop Securee Linux )
+        systemctl stop firewalld                        (stop firewall or open ftp ports)
+================================================================================
+On Client Machin:
+ - Step 1:
+        Create Repository file to connect to the ftp server
+        # vim /etc/yum.repos.d/server.repo
+                    [Server1]
+                    name = Server1
+                    baseurl = ftp://192.168.1.10/pub/media/BaseOS/   (Select Path to BaseOS directory)
+                    
+                    enabled = 1
+                    gpgcheck = 0
+
+            OR if we need to use check hache file:
+                    gpgcheck = 1
+                    gpgKey = ftp://192.168.1.10/pub/media/RPM-GPG-KEY-redhat-release
+    
+Note:
+ - to use user and ftp://myuser:"$mypass"@myserv/mypath
+                 baseurl = ftp://root:"password"@192.168.1.10/pub/media/BaseOS/   (Select Path to BaseOS directory)
+        # yum install system-config-kickstart
+        # yum install -y system-config-kickstart
+        # yum remove system-config-kickstart
+        # yum remove -y system-config-kickstart
+        # yum search   system-config-kickstart
+        # yum search  all system-config-kickstart
+        # yum info system-config-kickstart
+        # yum update system-config-kickstart
+        # yum update                                (Install updates for all Packages)
+        # yum list all                               (List all available Packages)
+        # yum list list installed                    (List all available Packages)
+        # yum repolist                               (List all repo files)
+        # yum whatprovides */sellinux               
+        # yum remove bash                                  (remove package)
+        # yum list kernel                                   (rlist all kernels)
+        # tail -f /var/log/yum.log 
+        # yum history
+        # yum history undo 3                                (Reverse action number 3)

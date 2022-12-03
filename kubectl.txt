@@ -1,0 +1,51 @@
+Install and Set Up kubectl on Linux
+====================================================
+1- Download the latest release with the command:
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+2- Validate the binary (optional)
+    Download the kubectl checksum file:
+        curl -LO "https://dl.k8s.io/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl.sha256"
+        Validate the kubectl binary against the checksum file:
+        echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+
+3- Install kubectl
+    sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+    chmod +x kubectl
+    mkdir -p ~/.local/bin
+    mv ./kubectl ~/.local/bin/kubectl
+    # and then append (or prepend) ~/.local/bin to $PATH
+
+4- Test to ensure the version you installed is up-to-date:
+
+        kubectl version --client
+
+    or  
+        kubectl version --client --output=yaml    
+        
+
+Install using native package management
+    1- Update the apt package index and install packages needed to use the Kubernetes apt repository:
+        sudo apt-get update
+        sudo apt-get install -y ca-certificates curl
+        sudo apt-get install -y apt-transport-https
+    2- Download the Google Cloud public signing key:
+        sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    3- Add the Kubernetes apt repository:
+        echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+    4- Update apt package index with the new repository and install kubectl:
+        sudo apt-get update
+        sudo apt-get install -y kubectl
+
+Verify kubectl configuration 
+        kubectl cluster-info
+
+
+================================================================================================================================
+minikube start
+
+ - curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+ - sudo install minikube-linux-amd64 /usr/local/bin/minikube
+ - minikube start
+ - Interact with your cluster
+    kubectl get po -A

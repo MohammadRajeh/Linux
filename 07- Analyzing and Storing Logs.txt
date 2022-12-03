@@ -1,0 +1,135 @@
+System logging:
+    1- Direct Write                         (ex: Apache)
+    2- Throigh systemctl                    (journald)
+    3- Through rsyslogd                     (/var/log)
+
+    ===========================================================================
+
+    journald:
+
+        # yum search journal
+        # systemctl status systemd-journald
+        # journalctl 
+        # journalctl -n                                               (Show the last 10 log entries)
+        # journalctl -n 5                                             (Show the last 5 log entries)
+        # journalctl -f                                               ( like tail -f)
+        # journalctl -p err                                           (filter the output to a specific severity)
+        # journalctl -b                                               ( logs during boot)
+        # journalctl --since yesterday
+        # journalctl --since yesterday --until 9:30:00
+        # journalctl _PID=1
+        # journalctl _UID=0
+        # journalctl _SYSTEMD_UNIT=sshd
+        # journalctl _SYSTEMD_UNIT=networkManager
+        # cat /etc/systemd/system/journald.conf
+        ================================================================================
+
+        Overview of syslog priorities:
+        _________________________________________________________________________________
+        |  Code   #    Priority            #        Severity                            |
+        |_______________________________________________________________________________|
+        |  0      |  emerg                 |  System is unusable                        |
+        |---------|------------------------|--------------------------------------------|
+        |  1      |  alert                 |  Action must be taken immediately          |
+        |---------|------------------------|--------------------------------------------|
+        |   2     |  crit                  |  Critical condition                        |
+        |---------|------------------------|--------------------------------------------|
+        |   3     |  err                   |  Non-critical error condition              |
+        |---------|------------------------|--------------------------------------------|
+        |  4      |   warning              |  Warning condition                         |
+        |---------|------------------------|--------------------------------------------|
+        |  5      |  notice                |   Normal but significant event             |
+        |---------|------------------------|--------------------------------------------|
+        |  6      |  info                  |   Informational event                      |
+        |---------|------------------------|--------------------------------------------|
+        |  7      |  debug                 |   Debugging-level message                  |
+        |_________|________________________|____________________________________________|
+
+================================================================================================
+rsyslogd: 
+syslog 514 UDP
+    # yum search rsyslog
+    # systemctl status rsyslog
+    # vim /etc/rsyslog.conf
+    file content:
+    ------------------------------------------------------------------
+    # Provides UDP syslog reception
+    # $ModLoad imudp
+    #$InputTCPServerRun 514
+    
+
+
+    ------------------------------------------------------------------
+    # systemctl restart rsyslog 
+    >  Local logging:
+    # tail -f /var/log/secure
+    # su -
+
+    ====================================================================
+    create syslog server:
+    from server:
+    change configuration File:
+        # vim /etc/rsyslog.conf 
+            $ModLoad  imudp
+            $UDPServerRun 514
+        :wq
+
+        # systemctl restart rsyslog
+        # tailf /var/log/secure
+
+    On Client 
+        # vim /etc/rsyslog.conf 
+        ############Rules####################
+        #authpriv.*                                                               /var/log/secure
+            *.*                                                               @Server_IP   to send using UDP or @@Server_IP to send using TCP and Server_IP:NewPort if change it
+       
+        :wq
+          # systemctl restart rsyslog
+
+        test logs
+            # su -
+            # password: 
+==============================================================================================================================================
+Log file rotation:
+    - Logs are "rotated"  by the log rotate utility after a week by default to keep them from filling up the file system containing /var/log/.
+    - When a log file is rotated, it is renamed with an extension indicating the date on which it was rotated.
+    - A cron job runs the log rotate program daily to see if any logs need to be rotated.
+    # vim /etc/logrotate.conf
+    # cd /etc/logrotate.d/                              (Any config here will overwrite the logrotate.conf file )
+
+===============================================================================================================================================
+Send a syslog message with logger:
+ on server side:
+        # tail -f /var/log/messages
+
+    # logger "Log entry created locally"
+    # logger -i "Log entry created locally"                                                  (log the process ID too)
+    # logger -p panic "Log entry created locally"                                            (mark given message with this priorety)
+
+===============================================================================================================================================
+Store the system journal permanently:
+- By default, the systemd journal is kept in  /run/log/journal, which means it is cleared when the system reboots.
+- If the directory /var/log/journal exists, the journal will log to that directory instead. The advantage of this is the historic data will be available immediately at boot.
+- However, even with a persistent journal, not all data will be kept forever. The journal has a built-in log rotation mechanism that will trigger monthly.
+- By default, the journal will not be allowed to get larger than 10% of the file system it is on, or leave less than 15% of the file system free. 
+    These values can be tuned in /etc/systemd/journald.conf
+
+as root
+ # mkdir /var/log/journal
+ # chown root:systemd-journal  /var/log/journal
+ # chmod 2755 /var/log/journal
+ # killall -USR1 systemd-journald                    (or reboot system)
+ ==============================================================================================================================================
+
+
+ # last
+ #lastlog
+
+=================================================================================================================================================
+Set local clocks and time zone:
+    # timedatectl                                           (Shows an Overview of the current time settings)
+    # timedatectl    list-timezones                                        (Shows a list of all time zones)
+    # timedatectl    set-timezone Asia/Amman                                      
+    # timedatectl    set-time 9:00:00                                      
+    # timedatectl    set-ntp true                                      
+

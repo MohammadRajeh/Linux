@@ -1,0 +1,29 @@
+Identifying File Systems and Devices:
+============================================================================
+
+    # ls -l /dev/sda
+    # ls -l /dev/hda
+    # ls -l /dev/vda
+    # df -h
+    # du -h /etc/
+    # du -hs /etc/
+
+============================================================================
+Mounting and Unmounting File Systems:
+============================================================================
+    # mount /dev/cdrom /media
+    # blkid
+    # mount UUID="2020-10-30-11-11-49-00" /media
+    # unmount /dev/cdrom
+    # unmount /media
+    # lsof               (lists all opened files)
+    # cd /media/
+    # lsof /media/
+
+Notes:
+- We can't unmount a busy file system.
+- Removable media, get automatically mountied under /run/media/<user>/<lable>
+- Removing a  USB storage device without unmounting the file system on it can result in data loss.
+============================================================================
+Making Links Between Files:
+============================================================================

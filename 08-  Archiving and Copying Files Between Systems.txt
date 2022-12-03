@@ -1,0 +1,64 @@
+Create archive files and directories with tar (tap archive): 
+=======================================================
+
+    # tar cvf archive.tar file1 file2 file3
+    # tar -cvf etc.tar /etc/
+    # tar -cf /root/etc.tar /etc/
+    # du -h /etc/            ===> (disk useage)
+    # du -hs /etc/            ===> (disk useage)
+    # ll -h etc.tar
+
+    * c (create an archive)
+    * f filename  (file name of the archive to operate on)
+    * v  (Verbosity; useful to see which files get added to or extracted from the archive)
+
+    Notes:
+        - Before creating a tar archive, verify that there is no other archive in the directory with the same name as the new archive to be created.
+        - The tar command will overwite an existing archive without any feedback.
+        - For tar to be able to archive the selected files, it is mandatory that the user excuting the tar command is able to read files.
+        - While tar stores ownership and permissions of the files, there are other attributes that are not stored in the tar archive by default.
+            such as the SELinux context and ACLs. To store those extended attributes in the tar archive, the --xttrs options is required when creating an archive.
+    ================================================================================================================================================
+    List Contents of a tar archive:
+        # tar tf archive.tar
+        # tar tvf archive.tar
+        * t (list the contents of an archive)
+    =================================================================================================================================================
+    Extract an archive created with tar:
+
+        # tar xvf archive.tar
+        # tar xvf archive.tar -C /var/data/                      (extracte to differnt location)
+
+        * x (extract an archive)
+    ================================================================================================================================================
+    Create a compressed tar archive:
+
+        # tar cvzf etc.tar.gz   /etc/
+        or 
+        # tar cvzf etc.tgz /etc/
+
+        * z for gzip compression.   filename.tar.gz or filename.tgz
+        * j for bzip2 compression.   filename.tar.bz2
+        * J for xz compression.   filename.tar.xz
+    ================================================================================================================================================
+    Extract a compressed tar archive:
+        # tar xvzf etc.tar.gz
+        # tar xvjf etc.tar.bz2
+        # tar xvJf etc.tar. xz
+    Notes:
+    - Listing a compressed tar archive works in the same way as listing an uncompressed tar archive.
+================================================================================================================================================
+    Compress and extract files:
+        # gzip file.txt
+        # gunzip file.txt.gz
+        
+        # bzip2 file.txt
+        # bunzip2 file.txt.bz2
+        
+        # xz file.txt
+        # unxz file.txt.xz
+
+        Note:
+        - Compressing a file will delete itby default.
+            # gzip -C file.text > file.gz                   (will not delete the file)
+================================================================================================================================================

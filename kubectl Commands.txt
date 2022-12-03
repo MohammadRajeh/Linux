@@ -1,0 +1,64 @@
+
+
+minikube status
+minikube start
+docker container ls
+kubectl version
+
+
+kubectl create deployment  --image=nginx nginx-app
+kubectl get deployment
+kubectl get pods
+kubectl get services
+kubectl get all
+kubectl get name
+kubectl scale deployment nginx-app --replicas=3
+kubectl get replicaset
+minikube dashboard
+kubectl delete deployment --all
+docker container ls
+kubectl create deployment  --image=nginx nginx-app
+kubectl create deployment  --image=nginx nginx-app2
+kubectl create deployment  --image=nginx nginx-app3
+===========================================================================================================
+Pods
+==========================================================================================================
+create hello.yaml
+    apiVersion: v1
+    kind: pod
+    metadata:
+    name: nginx
+    spec:
+    container:
+    - name: nginx
+        image: nginx:latest
+        ports: 
+        - containerPort: 80
+
+kubectl apply -f hello.yaml
+
+kubectl get pod
+kubectl get pod nginx
+kubectl describe pod nginx
+kubectl get pods -o json
+kubectl exec -it nginx  --/bin/bash
+create html file to Test
+echo 'Hello in coderz using kubernet' > /usr/share/nginx/html/index.html
+
+
+
+kubectl get pods --show-labels
+kubectl apply -f nginx-service.yaml
+kubectl get pods -w
+
+kubectl delete pod/nginx-deployment-6595874d85-2kc24
+
+To clean up:
+
+kubectl delete -f nginx-deploy.yaml
+kubectl delete -f nginx-service.yaml
+
+
+
+
+12 pod 
